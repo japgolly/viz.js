@@ -1901,6 +1901,7 @@ void fix_fc(void)
 #endif
 
 #ifndef HAVE_DRAND48
+/*
 double drand48(void)
 {
     double d;
@@ -1908,4 +1909,5 @@ double drand48(void)
     d = d / RAND_MAX;
     return d;
 }
+*/
 #endif

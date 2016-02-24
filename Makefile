@@ -6,23 +6,20 @@ LIBSBC= \
 	$(EPSRCDIR)/lib/lib-em.bc \
 	$(SRCDIR)/lib/cdt/libcdt-em.bc \
 	$(SRCDIR)/lib/common/libcommon-em.bc \
-	$(SRCDIR)/lib/circogen/libcircogen-em.bc \
 	$(SRCDIR)/lib/dotgen/libdotgen-em.bc \
-	$(SRCDIR)/lib/fdpgen/libfdpgen-em.bc \
 	$(SRCDIR)/lib/graph/libgraph-em.bc \
 	$(SRCDIR)/lib/gvc/libgvc-em.bc \
-	$(SRCDIR)/lib/neatogen/libneatogen-em.bc \
-	$(SRCDIR)/lib/osage/libosage-em.bc \
 	$(SRCDIR)/lib/pack/libpack-em.bc \
-	$(SRCDIR)/lib/patchwork/libpatchwork-em.bc \
 	$(SRCDIR)/lib/pathplan/libpathplan-em.bc \
-	$(SRCDIR)/lib/sparse/libsparse-em.bc \
-	$(SRCDIR)/lib/twopigen/libtwopigen-em.bc \
 	$(SRCDIR)/plugin/core/libgvplugin_core-em.bc \
-	$(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc \
-	$(SRCDIR)/plugin/neato_layout/libgvplugin_neato_layout-em.bc
-VIZOPTS=-v -O3 -s ASM_JS=1 --closure 1
-LIBOPTS=-O3
+
+LIBOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O1
+VIZOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O2 --closure 1
+# Raising VIZOPTS to O3 LIBTOPS to O2+ causes some graphs to fail.
+# (as of 2013 anyway - reverify)
+
+#LIBOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O3 -Oz
+#VIZOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O3 -Oz --closure 1
 
 viz.js: $(SRCDIR) $(EPSRCDIR) viz.c $(LIBSBC) post.js pre.js
 	$(EMCC) $(VIZOPTS) -s EXPORTED_FUNCTIONS='["_vizRenderFromString"]' -o viz.js -I$(SRCDIR)/lib/gvc -I$(SRCDIR)/lib/common -I$(SRCDIR)/lib/pathplan -I$(SRCDIR)/lib/cdt -I$(SRCDIR)/lib/graph -I$(EPSRCDIR)/lib viz.c $(LIBSBC) --pre-js pre.js --post-js post.js

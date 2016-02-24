@@ -13,6 +13,7 @@
 
 
 #include <ctype.h>
+#include <string.h>
 #include "render.h"
 #include "pack.h"
 

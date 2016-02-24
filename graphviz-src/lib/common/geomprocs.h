@@ -22,6 +22,8 @@ extern "C" {
 #endif
 
 
+#include "arith.h"
+#include "geom.h"
 #include "geom.h"
 
 #ifdef WIN32
