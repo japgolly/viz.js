@@ -265,7 +265,7 @@ extern int agcallbacks(Agraph_t * g, int flag);	/* return prev value */
 /* graphs */
 extern Agraph_t *agopen(char *name, Agdesc_t desc, Agdisc_t * disc);
 extern int agclose(Agraph_t * g);
-extern Agraph_t *agread(void *chan, Agdisc_t * disc);
+       Agraph_t *agread(void *chan, Agdisc_t * disc);
 extern Agraph_t *agmemread(const char *cp);
 extern void agreadline(int);
 extern void agsetfile(char *);

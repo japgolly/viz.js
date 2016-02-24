@@ -22,6 +22,7 @@ extern "C" {
 #endif
 
 
+#include "arith.h"
 #include "geom.h"
 
 #ifdef WIN32
@@ -223,6 +224,11 @@ static inline boxf boxf_intersect(boxf b0, boxf b1)
     return b;
 }
 
+/* true if boxes b0 and b1 overlap */
+#define OVERLAP(b0,b1)	(((b0).UR.x >= (b1).LL.x) && ((b1).UR.x >= (b0).LL.x) && ((b0).UR.y >= (b1).LL.y) && ((b1).UR.y >= (b0).LL.y))
+
+/* true if box b0 completely contains b1*/
+#define CONTAINS(b0,b1)	(((b0).UR.x >= (b1).UR.x) && ((b0).UR.y >= (b1).UR.y) && ((b0).LL.x <= (b1).LL.x) && ((b0).LL.y <= (b1).LL.y))
 static inline int box_overlap(box b0, box b1)
 {
     return OVERLAP(b0, b1);

@@ -39,7 +39,8 @@ void agsetfile(char* f) { InputFile = f; line_num = 1; }
  */
 void aglexinit(Agdisc_t *disc, void *ifile) { Disc = disc; Ifile = ifile; graphType = 0;}
 
-#define isatty(x) 0
+inline int isatty(int x) { return 0; }
+
 #ifndef YY_INPUT
 #define YY_INPUT(buf,result,max_size) \
 	if ((result = Disc->io->afread(Ifile, buf, max_size)) < 0) \

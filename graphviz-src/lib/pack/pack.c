@@ -17,7 +17,9 @@
  * K. Freivalds et al., GD0'01, LNCS 2265, pp. 378-391.
  */
 
+#include "geom.h"
 #include <math.h>
+#include <string.h>
 #include <assert.h>
 #include "render.h"
 #include "pack.h"

@@ -1,6 +1,6 @@
 # To compile, emcc must be in your path or EMSCRIPTEN_ROOT must be set.
 #EMCC:=$(shell if command -v emcc > /dev/null; then echo "emcc"; else echo "$(EMSCRIPTEN_ROOT)/emcc"; fi)
-EMCC=/home/golly/Apps/emscripten/emcc
+EMCC=emcc
 SRCDIR=graphviz-src
 EPSRCDIR=libexpat-src
 GRAPH=cgraph
@@ -15,9 +15,15 @@ LIBSBC= \
 	$(SRCDIR)/lib/pathplan/libpathplan-em.bc \
 	$(SRCDIR)/plugin/core/libgvplugin_core-em.bc \
 	$(SRCDIR)/plugin/dot_layout/libgvplugin_dot_layout-em.bc
-VIZOPTS=-v -O2 -s ASM_JS=1 --closure 1 --jcache
-LIBOPTS=-O1
+
+LIBOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O1
+VIZOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O2 --closure 1
 # Raising VIZOPTS to O3 LIBTOPS to O2+ causes some graphs to fail.
+# (as of 2013 anyway - reverify)
+
+#LIBOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O3 -Oz
+#VIZOPTS=--memory-init-file 0 -s USE_ZLIB=1 -O3 -Oz --closure 1
+
 
 viz.js: $(SRCDIR) $(EPSRCDIR) viz.c $(LIBSBC) post.js pre.js
 	$(EMCC) $(VIZOPTS) -s EXPORTED_FUNCTIONS='["_vizRenderFromString"]' -o viz.js -I$(SRCDIR)/lib/gvc -I$(SRCDIR)/lib/common -I$(SRCDIR)/lib/pathplan -I$(SRCDIR)/lib/cdt -I$(SRCDIR)/lib/$(GRAPH) -I$(EPSRCDIR)/lib viz.c $(LIBSBC) --pre-js pre.js --post-js post.js
@@ -59,12 +65,13 @@ $(SRCDIR)/lib/graph/libgraph-em.bc:
 	#agxbuf.c attribs.c edge.c graph.c graphio.c lexer.c node.c parser.c refstr.c trie.c
 
 $(SRCDIR)/lib/cgraph/libcgraph-em.bc:
-	cd $(SRCDIR)/lib/cgraph; $(EMCC) $(LIBOPTS) -o libcgraph-em.bc -I. -I../cdt -I../../.. -DHAVE_CONFIG_H \
+	cd $(SRCDIR)/lib/cgraph; \
+  $(EMCC) $(LIBOPTS) -o libcgraph-em.bc -I. -I../cdt -I../../.. -DHAVE_CONFIG_H \
 	    agerror.c agxbuf.c apply.c attr.c edge.c \
-		flatten.c grammar.y graph.c id.c imap.c io.c mem.c node.c \
+		flatten.c graph.c id.c imap.c io.c mem.c node.c \
 		obj.c pend.c rec.c refstr.c subg.c utils.c write.c \
 		grammar.c scan.c
-	# Removed: scan.l
+	# Removed: scan.l grammar.y
 
 $(SRCDIR)/lib/osage/libosage-em.bc:
 	cd $(SRCDIR)/lib/osage; $(EMCC) $(LIBOPTS) -o libosage-em.bc -I. -I../gvc -I../common -I../pathplan -I../cdt -I../$(GRAPH) -I../sparse -I../pack -I../neatogen osageinit.c

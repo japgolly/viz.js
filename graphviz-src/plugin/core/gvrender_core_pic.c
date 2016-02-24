@@ -137,6 +137,8 @@ static char *picfontname(char *psname)
     return rv;
 }
 
+extern int colorxlate(char *str, gvcolor_t * color, color_type_t target_type);
+
 static void pic_set_color(GVJ_t *job, char *name)
 {
     gvcolor_t color;

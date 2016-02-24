@@ -14,6 +14,7 @@
 
 #include <ctype.h>
 #include <setjmp.h>
+#include <string.h>
 #include "render.h"
 #include "pack.h"
 
