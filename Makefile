@@ -12,7 +12,7 @@ GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/gr
 .PHONY: all deps deps-full deps-lite clean clobber expat–full graphviz-full graphviz-lite
 
 
-all: full.render.js lite.render.js viz.js viz.es.js
+all: full.render.js lite.render.js viz.js viz.es.js viz.golly.js
 
 deps: deps-full deps-lite
 
@@ -22,13 +22,16 @@ deps-lite: graphviz-lite
 
 
 clean:
-	rm -f build-main/viz.js build-main/viz.es.js viz.js viz.es.js
+	rm -f build-main/viz.js build-main/viz.es.js viz.js viz.es.js viz.golly.js
 	rm -f build-full/module.js build-full/pre.js full.render.js
 	rm -f build-lite/module.js build-lite/pre.js lite.render.js
 
 clobber: | clean
 	rm -rf build-main build-full build-lite $(PREFIX_FULL) $(PREFIX_LITE)
 
+
+viz.golly.js: src/golly-pre.js lite.render.js src/golly-post.js
+	cat src/golly-pre.js lite.render.js src/golly-post.js > viz.golly.js
 
 viz.es.js: src/boilerplate/pre-main.js build-main/viz.es.js
 	sed -e s/{{VIZ_VERSION}}/$(VIZ_VERSION)/ -e s/{{EXPAT_VERSION}}/$(EXPAT_VERSION)/ -e s/{{GRAPHVIZ_VERSION}}/$(GRAPHVIZ_VERSION)/ -e s/{{EMSCRIPTEN_VERSION}}/$(EMSCRIPTEN_VERSION)/ $^ > $@
