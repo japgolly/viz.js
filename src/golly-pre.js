@@ -1,1 +1,1 @@
-Viz={};
+window.Viz={};

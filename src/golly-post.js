@@ -5,3 +5,5 @@ function viz(src, o) {
   const o2 = o ? Object.assign({}, Viz.defaultOptions, o) : Viz.defaultOptions;
   return Viz.render(Viz.instance, src, o2);
 }
+
+window.viz = viz;

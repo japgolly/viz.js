@@ -45,8 +45,9 @@
     "bluebird": "^3.5.1",
     "minimist": "^1.2.0",
     "mocha": "^5.1.1",
-    "rollup": "^1.1.1",
+    "rollup": "^2.10.9",
     "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-terser": "^6.1.0",
     "selenium-webdriver": "^3.6.0",
     "tiny-worker": "^2.1.2"
   }
