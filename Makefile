@@ -3,11 +3,11 @@ PREFIX_LITE = $(abspath ./prefix-lite)
 
 VIZ_VERSION = $(shell node -p "require('./package.json').version")
 EXPAT_VERSION = 2.2.9
-GRAPHVIZ_VERSION = 2.40.1
+GRAPHVIZ_VERSION = 2.44.0
 EMSCRIPTEN_VERSION = 1.39.16
 
 EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.bz2"
-GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz"
+GRAPHVIZ_SOURCE_URL = "https://gitlab.com/api/v4/projects/graphviz%2Fgraphviz/repository/archive.tar.gz?sha=$(GRAPHVIZ_VERSION)"
 
 .PHONY: all deps deps-full deps-lite clean clobber expat–full graphviz-full graphviz-lite
 
@@ -74,7 +74,8 @@ expat-full: | build-full/expat-$(EXPAT_VERSION) $(PREFIX_FULL)
 	cd build-full/expat-$(EXPAT_VERSION) && emmake make --quiet -C lib all install
 
 graphviz-full: | build-full/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_FULL)
-	grep $(GRAPHVIZ_VERSION) build-full/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
+	grep $(GRAPHVIZ_VERSION) build-full/graphviz-$(GRAPHVIZ_VERSION)/appveyor.yml
+	cd build-lite/graphviz-$(GRAPHVIZ_VERSION) && ./autogen.sh
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION) && ./configure --quiet
 	cd build-full/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make --quiet mkdefs CFLAGS="-w"
 	mkdir -p build-full/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
@@ -89,7 +90,8 @@ $(PREFIX_LITE):
 	mkdir -p $(PREFIX_LITE)
 
 graphviz-lite: | build-lite/graphviz-$(GRAPHVIZ_VERSION) $(PREFIX_LITE)
-	grep $(GRAPHVIZ_VERSION) build-lite/graphviz-$(GRAPHVIZ_VERSION)/graphviz_version.h
+	grep $(GRAPHVIZ_VERSION) build-lite/graphviz-$(GRAPHVIZ_VERSION)/appveyor.yml
+	cd build-lite/graphviz-$(GRAPHVIZ_VERSION) && ./autogen.sh
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION) && ./configure --quiet
 	cd build-lite/graphviz-$(GRAPHVIZ_VERSION)/lib/gvpr && make --quiet mkdefs CFLAGS="-w"
 	mkdir -p build-lite/graphviz-$(GRAPHVIZ_VERSION)/FEATURE
