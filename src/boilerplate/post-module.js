@@ -9,30 +9,30 @@ function render(instance, src, options) {
 
   instance['ccall']('vizSetY_invert', 'number', ['number'], [options.yInvert ? 1 : 0]);
   instance['ccall']('vizSetNop', 'number', ['number'], [options.nop ? options.nop : 0]);
-  
+
   var resultPointer = instance['ccall']('vizRenderFromString', 'number', ['string', 'string', 'string'], [src, options.format, options.engine]);
-  var resultString = instance['Pointer_stringify'](resultPointer);
+  var resultString = instance['UTF8ToString'](resultPointer);
   instance['ccall']('free', 'number', ['number'], [resultPointer]);
 
   var errorMessagePointer = instance['ccall']('vizLastErrorMessage', 'number', [], []);
-  var errorMessageString = instance['Pointer_stringify'](errorMessagePointer);
+  var errorMessageString = instance['UTF8ToString'](errorMessagePointer);
   instance['ccall']('free', 'number', ['number'], [errorMessagePointer]);
 
   if (errorMessageString != '') {
     throw new Error(errorMessageString);
   }
-  
+
   return resultString;
 }
 
 if (typeof importScripts === "function") {
   var instance = Module();
-  
+
   onmessage = function(event) {
     var id = event.data.id;
     var src = event.data.src;
     var options = event.data.options;
-  
+
     try {
       var result = render(instance, src, options);
       postMessage({ id: id, result: result });
