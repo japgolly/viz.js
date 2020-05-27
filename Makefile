@@ -2,11 +2,11 @@ PREFIX_FULL = $(abspath ./prefix-full)
 PREFIX_LITE = $(abspath ./prefix-lite)
 
 VIZ_VERSION = $(shell node -p "require('./package.json').version")
-EXPAT_VERSION = 2.2.5
+EXPAT_VERSION = 2.2.9
 GRAPHVIZ_VERSION = 2.40.1
-EMSCRIPTEN_VERSION = 1.38.25
+EMSCRIPTEN_VERSION = 1.39.16
 
-EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_5/expat-2.2.5.tar.bz2"
+EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.bz2"
 GRAPHVIZ_SOURCE_URL = "https://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz"
 
 .PHONY: all deps deps-full deps-lite clean clobber expat–full graphviz-full graphviz-lite
