@@ -5,8 +5,3 @@ prefix-lite/
 build-main/
 sources/
 node_modules/
-
-viz.js
-viz.es.js
-full.render.js
-lite.render.js
