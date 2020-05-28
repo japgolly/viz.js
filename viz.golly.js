@@ -1,5 +1,6 @@
 !function(){"use strict"
-window.Viz={},function(A){var I=function(A){A=void 0!==(A=A||{})?A:{}
+const A=self||window
+A.Viz={},function(A){var I=function(A){A=void 0!==(A=A||{})?A:{}
 var I,g={}
 for(I in A)A.hasOwnProperty(I)&&(g[I]=A[I])
 var C="./this.program",Q=function(A,I){throw I},B=!1,E=!1,D=!1,i=!1
@@ -529,5 +530,8 @@ return B}if("function"==typeof importScripts){var C=I()
 onmessage=function(A){var I=A.data.id,Q=A.data.src,B=A.data.options
 try{var E=g(C,Q,B)
 postMessage({id:I,result:E})}catch(A){var D
-D=A instanceof Error?{message:A.message,fileName:A.fileName,lineNumber:A.lineNumber}:{message:A.toString()},postMessage({id:I,error:D})}}}"object"==typeof exports&&"undefined"!=typeof module?module.exports={render:g,Module:I}:"function"==typeof define&&define.amd&&define((function(){return{render:g,Module:I}})),void 0!==A.Viz&&(A.Viz.render=g,A.Viz.Module=I)}("undefined"!=typeof self?self:window),Viz.instance=new Viz.Module,Viz.defaultOptions={format:"svg",engine:"dot",files:[],images:[],yInvert:!1,nop:0},window.viz=function(A,I){const g=I?Object.assign({},Viz.defaultOptions,I):Viz.defaultOptions
-return Viz.render(Viz.instance,A,g)}}()
+D=A instanceof Error?{message:A.message,fileName:A.fileName,lineNumber:A.lineNumber}:{message:A.toString()},postMessage({id:I,error:D})}}}"object"==typeof exports&&"undefined"!=typeof module?module.exports={render:g,Module:I}:"function"==typeof define&&define.amd&&define((function(){return{render:g,Module:I}})),void 0!==A.Viz&&(A.Viz.render=g,A.Viz.Module=I)}("undefined"!=typeof self?self:window)
+const I=new class{constructor(A,I){let g=void 0,C=!1,Q=new Promise((I,Q)=>{g=A(),g.onRuntimeInitialized=()=>{C=!0,I()}})
+this.render=async(A,B)=>(C||await Q,I(g,A,B))}}(Viz.Module,Viz.render),g={format:"svg",engine:"dot",files:[],images:[],yInvert:!1,nop:0}
+A.viz=function(A,C){const Q=C?Object.assign({},g,C):g
+return I.render(A,Q)}}()

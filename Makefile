@@ -9,6 +9,15 @@ EMSCRIPTEN_VERSION = 1.39.16
 EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2_9/expat-2.2.9.tar.bz2"
 GRAPHVIZ_SOURCE_URL = "https://gitlab.com/api/v4/projects/graphviz%2Fgraphviz/repository/archive.tar.gz?sha=$(GRAPHVIZ_VERSION)"
 
+EMCC_OPTS += -Oz
+EMCC_OPTS += -g4
+EMCC_OPTS += --memory-init-file 0
+EMCC_OPTS += -s ASSERTIONS=0
+EMCC_OPTS += -s MODULARIZE=0
+EMCC_OPTS += -s NO_DYNAMIC_EXECUTION=1
+EMCC_OPTS += -s SINGLE_FILE=1
+EMCC_OPTS += -s USE_ZLIB=1
+
 .PHONY: all deps deps-full deps-lite clean clobber expat–full graphviz-full graphviz-lite
 
 
@@ -55,7 +64,7 @@ full.render.js: src/boilerplate/pre-module-full.js build-full/module.js src/boil
 
 build-full/module.js: src/viz.c
 	emcc --version | grep $(EMSCRIPTEN_VERSION)
-	emcc -Oz -g4 --memory-init-file 0 -s USE_ZLIB=1 -s SINGLE_FILE=1 -s MODULARIZE=0 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizSetNop', '_vizLastErrorMessage', '_dtextract']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_FULL)/include -I$(PREFIX_FULL)/include/graphviz -L$(PREFIX_FULL)/lib -L$(PREFIX_FULL)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot -lcdt
+	emcc $(EMCC_OPTS) -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizSetNop', '_vizLastErrorMessage', '_dtextract']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_FULL)/include -I$(PREFIX_FULL)/include/graphviz -L$(PREFIX_FULL)/lib -L$(PREFIX_FULL)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lgvplugin_neato_layout -lcgraph -lgvc -lgvpr -lpathplan -lexpat -lxdot -lcdt
 
 
 lite.render.js: src/boilerplate/pre-module-lite.js build-lite/module.js src/boilerplate/post-module.js
@@ -63,7 +72,7 @@ lite.render.js: src/boilerplate/pre-module-lite.js build-lite/module.js src/boil
 
 build-lite/module.js: src/viz.c
 	emcc --version | grep $(EMSCRIPTEN_VERSION)
-	emcc -D VIZ_LITE -Oz -g4 --memory-init-file 0 -s USE_ZLIB=1 -s SINGLE_FILE=1 -s MODULARIZE=0 -s NO_DYNAMIC_EXECUTION=1 -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizSetNop', '_vizLastErrorMessage', '_dtextract', '_dtopen', '_dtdisc']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_LITE)/include -I$(PREFIX_LITE)/include/graphviz -L$(PREFIX_LITE)/lib -L$(PREFIX_LITE)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lcgraph -lgvc -lgvpr -lpathplan -lxdot -lcdt
+	emcc -D VIZ_LITE $(EMCC_OPTS) -s EXPORTED_FUNCTIONS="['_vizRenderFromString', '_vizCreateFile', '_vizSetY_invert', '_vizSetNop', '_vizLastErrorMessage', '_dtextract', '_dtopen', '_dtdisc']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['Pointer_stringify', 'ccall', 'UTF8ToString']" -o $@ $< -I$(PREFIX_LITE)/include -I$(PREFIX_LITE)/include/graphviz -L$(PREFIX_LITE)/lib -L$(PREFIX_LITE)/lib/graphviz -lgvplugin_core -lgvplugin_dot_layout -lcgraph -lgvc -lgvpr -lpathplan -lxdot -lcdt
 
 
 $(PREFIX_FULL):

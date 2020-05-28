@@ -3,9 +3,11 @@ import {terser} from 'rollup-plugin-terser';
 export default {
   input: '/tmp/viz.golly.js',
   output: {
-    name: 'Viz',
     file: 'viz.golly.js',
-    format: 'iife'
+    format: 'iife',
+    compact: true,
+    interop: false,
+    externalLiveBindings: false
   },
   context: 'window',
   plugins: [

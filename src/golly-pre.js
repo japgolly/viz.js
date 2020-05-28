@@ -1,1 +1,2 @@
-window.Viz={};
+const global = self || window;
+global.Viz={};

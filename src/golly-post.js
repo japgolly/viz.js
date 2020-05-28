@@ -1,9 +1,38 @@
-Viz.instance = new Viz.Module();
-Viz.defaultOptions = { format: 'svg', engine: 'dot', files: [], images: [], yInvert: false, nop: 0 };
+class ModuleWrapper {
+  constructor(module, render) {
+    let instance = undefined;
+    let initialized = false;
+    let moduleInitialization = new Promise((resolve, reject) => {
+      instance = module();
+      instance['onRuntimeInitialized'] = () => {
+        initialized = true;
+        resolve();
+      };
+    });
 
-function viz(src, o) {
-  const o2 = o ? Object.assign({}, Viz.defaultOptions, o) : Viz.defaultOptions;
-  return Viz.render(Viz.instance, src, o2);
+    this.render = async (src, options) => {
+      if (!initialized) {
+        await moduleInitialization;
+      }
+      return render(instance, src, options);
+    }
+  }
 }
 
-window.viz = viz;
+const wrapper = new ModuleWrapper(Viz.Module, Viz.render)
+
+const defaultOptions = {
+  format : 'svg',
+  engine : 'dot',
+  files  : [],
+  images : [],
+  yInvert: false,
+  nop    : 0,
+};
+
+function viz(src, opts) {
+  const o = opts ? Object.assign({}, defaultOptions, opts) : defaultOptions;
+  return wrapper.render(src, o);
+}
+
+global.viz = viz;
