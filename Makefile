@@ -10,13 +10,16 @@ EXPAT_SOURCE_URL = "https://github.com/libexpat/libexpat/releases/download/R_2_2
 GRAPHVIZ_SOURCE_URL = "https://gitlab.com/api/v4/projects/graphviz%2Fgraphviz/repository/archive.tar.gz?sha=$(GRAPHVIZ_VERSION)"
 
 EMCC_OPTS += -Oz
-EMCC_OPTS += -g4
+EMCC_OPTS += -g0
 EMCC_OPTS += --memory-init-file 0
 EMCC_OPTS += -s ASSERTIONS=0
+EMCC_OPTS += -s ENVIRONMENT=web,worker
+EMCC_OPTS += -s EXPORT_NAME=VizModule
 EMCC_OPTS += -s MODULARIZE=0
 EMCC_OPTS += -s NO_DYNAMIC_EXECUTION=1
-EMCC_OPTS += -s SINGLE_FILE=1
+EMCC_OPTS += -s SINGLE_FILE=0
 EMCC_OPTS += -s USE_ZLIB=1
+EMCC_OPTS += -s WASM=1
 
 .PHONY: all deps deps-full deps-lite clean clobber expat–full graphviz-full graphviz-lite
 
@@ -40,7 +43,8 @@ clobber: | clean
 
 
 golly: src/golly-pre.js lite.render.js src/golly-post.js rollup.config.golly.js
-	cat src/golly-pre.js lite.render.js src/golly-post.js > /tmp/viz.golly.js
+	cp build-lite/module.wasm viz.golly.wasm
+	cat src/golly-pre.js lite.render.js src/golly-post.js | sed -e 's/["'"'"']module.wasm["'"'"']/""/' > /tmp/viz.golly.js
 	node_modules/.bin/rollup --config rollup.config.golly.js
 
 viz.es.js: src/boilerplate/pre-main.js build-main/viz.es.js

@@ -6,9 +6,27 @@
 </head>
 <body>
   <script>console.log(new Date())</script>
-  <script src="../viz.golly.js"></script>
-  <script>console.log("Viz: ", Viz)</script>
-  <script>console.log("viz: ", viz)</script>
-  <script>viz("digraph G {a -> b}").then((a) => console.log(a))</script>
+  <script>vizWasmFile = '../viz.golly.wasm'</script>
+  <!-- <script src="../viz.golly.js"></script> -->
+  <script>
+    // console.log("Viz: ", Viz)
+    // console.log("viz: ", viz)
+    // function test() { viz("digraph G {a}").then((a) => console.log(a)) }
+    // test()
+    // setTimeout(test, 1000)
+  </script>
+  <script>
+    var worker = new Worker('golly-ww.js');
+    function send() { worker.postMessage("digraph G {a}") }
+    worker.onmessage = function(e) {
+      console.log('Message received from worker: ', e.data);
+      if ("ready" === e.data) {
+        send()
+        setTimeout(send, 1000)
+        setTimeout(send, 2000)
+      }
+    }
+
+  </script>
 </body>
 </html>

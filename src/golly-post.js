@@ -3,11 +3,15 @@ class ModuleWrapper {
     let instance = undefined;
     let initialized = false;
     let moduleInitialization = new Promise((resolve, reject) => {
-      instance = module();
-      instance['onRuntimeInitialized'] = () => {
-        initialized = true;
-        resolve();
-      };
+      try {
+        instance = module();
+        instance['onRuntimeInitialized'] = () => {
+          initialized = true;
+          resolve();
+        };
+      } catch (error) {
+        reject(error)
+      }
     });
 
     this.render = async (src, options) => {

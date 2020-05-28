@@ -25,6 +25,7 @@ function render(instance, src, options) {
   return resultString;
 }
 
+/*
 if (typeof importScripts === "function") {
   var instance = Module();
 
@@ -53,6 +54,7 @@ if (typeof exports === 'object' && typeof module !== 'undefined') {
 } else if (typeof define === 'function' && define.amd) {
   define(function() { return { render: render, Module: Module }; });
 }
+*/
 
 if (typeof global.Viz !== 'undefined') {
   global.Viz.render = render;

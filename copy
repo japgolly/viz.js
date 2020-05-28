@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")"
+
+cp -v viz.golly.js   $sqc/frontend/vendor/viz.js
+cp -v viz.golly.wasm $sqc/frontend/vendor/viz.wasm
