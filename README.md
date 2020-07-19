@@ -16,7 +16,8 @@
 
 1. python3 -m http.server 8000
 2. Open http://localhost:8000/test-browser/golly.html
-3. Look at the console
+3. Look at the console.
+   (One error in the middle is deliberate and expected.)
 
 
 # Running Browser Tests

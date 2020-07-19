@@ -18,7 +18,14 @@ class ModuleWrapper {
       if (!initialized) {
         await moduleInitialization;
       }
-      return render(instance, src, options);
+      try {
+        return render(instance, src, options);
+      } catch (err) {
+        // The instance is left in a broken state on error.
+        // We have to create a new instance for subsequent calls to work.
+        instance = module();
+        throw err;
+      }
     }
   }
 }

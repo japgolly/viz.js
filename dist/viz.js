@@ -500,6 +500,7 @@ f?(0===c&&(c=Dr()),u[l]=f(o[l])):u[l]=o[l]}var d=s.apply(null,u)
 return d=function(r){return"string"===n?_(r):"boolean"===n?Boolean(r):r}(d),0!==c&&Sr(c),d},r.UTF8ToString=_,W=function r(){hr||Ir(),hr||(W=r)},r.run=Ir,r.preInit)for("function"==typeof r.preInit&&(r.preInit=[r.preInit]);r.preInit.length>0;)r.preInit.pop()()
 return m=!0,Ir(),r})}("undefined"!=typeof self?self:window)
 const e=new class{constructor(r,e){let n=void 0,t=!1,o=new Promise((e,o)=>{try{n=r(),n.onRuntimeInitialized=()=>{t=!0,e()}}catch(r){o(r)}})
-this.render=async(r,i)=>(t||await o,e(n,r,i))}}(Viz.Module,Viz.render),n={format:"svg",engine:"dot",files:[],images:[],yInvert:!1,nop:0}
+this.render=async(i,a)=>{t||await o
+try{return e(n,i,a)}catch(e){throw n=r(),e}}}}(Viz.Module,Viz.render),n={format:"svg",engine:"dot",files:[],images:[],yInvert:!1,nop:0}
 r.viz=function(r,t){const o=t?Object.assign({},n,t):n
 return e.render(r,o)}}()

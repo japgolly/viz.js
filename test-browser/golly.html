@@ -18,11 +18,12 @@
   <script>
     var worker = new Worker('golly-ww.js');
     function send() { worker.postMessage("digraph G {a}") }
+    function sendBad() { worker.postMessage("digraph G {a ->") }
     worker.onmessage = function(e) {
       console.log('Message received from worker: ', e.data);
       if ("ready" === e.data) {
         send()
-        setTimeout(send, 1000)
+        setTimeout(sendBad, 1000)
         setTimeout(send, 2000)
       }
     }
