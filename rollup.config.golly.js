@@ -1,9 +1,9 @@
 import {terser} from 'rollup-plugin-terser';
 
 export default {
-  input: '/tmp/viz.golly.js',
+  input: 'target/golly/viz.js',
   output: {
-    file: 'viz.golly.js',
+    file: 'dist/viz.js',
     format: 'iife',
     compact: true,
     interop: false,

@@ -1,23 +1,6 @@
 {
   "name": "viz.js",
-  "version": "2.1.2",
-  "description": "A hack to put Graphviz on the web.",
-  "main": "viz.js",
-  "module": "viz.es.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mdaines/viz.js.git"
-  },
-  "keywords": [
-    "graphviz",
-    "emscripten"
-  ],
-  "files": [
-    "viz.js",
-    "viz.es.js",
-    "full.render.js",
-    "lite.render.js"
-  ],
+  "version": "3.0",
   "browser": {
     "fs": false,
     "path": false,
@@ -32,12 +15,8 @@
   "scripts": {
     "test": "mocha test-node"
   },
-  "author": "Mike Daines <mdaines@fastmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mdaines/viz.js/issues"
-  },
-  "homepage": "https://github.com/mdaines/viz.js",
+  "homepage": "https://github.com/japgolly/viz.js",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",

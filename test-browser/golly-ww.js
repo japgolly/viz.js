@@ -1,5 +1,5 @@
-vizWasmFile = '../viz.golly.wasm';
-self.importScripts(["../viz.golly.js"]);
+vizWasmFile = '../dist/viz.wasm';
+self.importScripts(["../dist/viz.js"]);
 
 console.log("[ww] Viz: ", Viz)
 console.log("[ww] viz: ", viz)
